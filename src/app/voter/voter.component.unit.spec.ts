@@ -1,18 +1,35 @@
-.voter {
-    width: 20px;
-    text-align: center;
-    color: #999;
-}
+import { VoterComponent } from './voter.component'; 
+//import { exec } from 'child_process';
 
-.vote-count {
-    font-size: 1.2em;
-}
+describe('Unit test - VoterComponent', () => {
+  let component : VoterComponent;
+  
+  beforeEach(() => {
+    // arrange
+    component = new VoterComponent();
+   });
 
-.vote-button {
-    cursor: pointer;
-}
+  it('should increment totalVotes when upvoted', () => {
+    // act
+    component.upVote();
+  
+    // assert
+    expect(component.totalVotes).toBe(1);
+  });
 
-.highlighted {
-    font-weight: bold;
-    color: orange;
-}
+  it('should decrement totalVotes when downvoted', () => {
+    
+    // act
+    component.downVote();
+  
+    // assert
+    expect(component.totalVotes).toBe(-1);
+  });
+  
+  it('should raise voteChanged event when upvoted', () => {
+    let totalV = null;
+    component.vote.subscribe(tv => totalV = tv);
+    component.upVote();
+    expect(totalV).toBe(1);
+  });
+});
